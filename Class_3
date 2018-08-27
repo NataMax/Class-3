@@ -1,0 +1,54 @@
+# Class 3
+
+# Install the package affy
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("affy", version = "devel")
+
+
+source("https://bioconductor.org/biocLite.R")
+biocLite("SpikeInSubset") # biocLite is a function
+
+#loading this package
+library(SpikeInSubset) # library where we have datasets; SpikeInSubset is package
+library(affy)
+
+# Load data
+data(spikein95) # spikein95 is dataset
+
+#Chek the chips
+image(spikein95)
+
+#collect the gene ids from dataset and put it into an object
+ids <- geneNames(spikein95) # we make an object, geneNames is fuction
+
+#ids - show the ids
+
+# perform Mas 5.0 normalization
+Mas <- mas5(spikein95) # put normalized data in object, mas5 is a function
+
+# Box plot for row data and boxplot for normalized data on log fold
+boxplot(spikein95)
+mas_log <- log2(exprs(Mas)) # taking expression values with the function exprs
+x11() # separate windows
+boxplot(mas_log)
+
+#density plot
+density <- density(mas_log[,1]) #density function
+plot(density, main="Mas mormalization")
+
+density2 <- density(mas_log[,2]) # column 2 second sample
+lines(density2, col="red")
+
+density3 <- density(mas_log[,3])
+lines(density3, col="blue")
+
+
+
+
+
+
+
+
+
+
